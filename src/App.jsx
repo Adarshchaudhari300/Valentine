@@ -51,11 +51,12 @@ function App() {
         </motion.div>
       </AnimatePresence>
       
-      <Navigation 
+      {/* Navigation Hidden for now */}
+      {/* <Navigation 
         days={days}
         currentDayIndex={currentDayIndex}
         setCurrentDayIndex={setCurrentDayIndex}
-      />
+      /> */}
     </div>
   )
 }
