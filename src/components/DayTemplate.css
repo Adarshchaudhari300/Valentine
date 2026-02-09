@@ -7,6 +7,29 @@
   overflow: hidden;
 }
 
+/* Falling Photos Background */
+.falling-photos {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.falling-photo {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  border: 3px solid white;
+}
+
 .floating-hearts {
   position: absolute;
   top: 0;
@@ -62,10 +85,11 @@
 
 .question {
   font-size: 1.5rem;
-  color: #333;
+  color: #FFB6C1;
   margin-bottom: 30px;
   line-height: 1.6;
   font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .answer-input {
@@ -157,6 +181,8 @@
   justify-content: center;
   z-index: 9999;
   backdrop-filter: blur(10px);
+  padding: 20px;
+  overflow-y: auto;
 }
 
 .popup-content {
@@ -165,9 +191,12 @@
   border-radius: 30px;
   max-width: 600px;
   width: 90%;
+  max-height: 90vh;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
   position: relative;
-  overflow: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: auto;
 }
 
 .popup-hearts {
@@ -292,9 +321,14 @@
     padding: 30px 20px;
   }
 
+  .popup-overlay {
+    padding: 10px;
+  }
+
   .popup-content {
     padding: 30px 20px;
     width: 95%;
+    max-height: 85vh;
   }
 
   .popup-title {
@@ -307,5 +341,10 @@
 
   .screenshot-prompt {
     font-size: 1.1rem;
+  }
+
+  .popup-question,
+  .popup-answer {
+    padding: 15px;
   }
 }

@@ -1,0 +1,43 @@
+🎉 QUICK SETUP FOR FALLING PHOTOS 🎉
+
+Step 1: Create the photos folder (if it doesn't exist)
+   → The folder is already at: D:\Valentine\public\photos\
+
+Step 2: Save the 30 images from your message
+   → Download/save all the photos you shared
+   → You have about 30 couple photos
+
+Step 3: Rename them sequentially
+   photo1.jpg  - First photo (the one at the bowling alley)
+   photo2.jpg  - Second photo (the green background one)
+   photo3.jpg  - Metro photo
+   photo4.jpg  - Puja POV one
+   photo5.jpg  - Friday timestamp
+   ... continue ...
+   photo30.jpg - Last photo
+
+Step 4: Copy to folder
+   → Copy ALL renamed photos to: D:\Valentine\public\photos\
+
+Step 5: Rebuild
+   npm run build
+
+Step 6: Test locally (optional)
+   npm run dev
+   → Visit http://localhost:5173
+   → You should see photos falling in background!
+
+Step 7: Deploy to Netlify
+   → Drag the updated 'dist' folder to Netlify
+
+✨ RESULT:
+Your beautiful memories will fall gracefully across the screen like a waterfall on every page, creating a stunning backdrop of your journey together!
+
+The photos will:
+- Rotate as they fall
+- Fade in and out
+- Appear continuously
+- Be bordered like Polaroids
+- Cover all 6 Valentine days!
+
+💡 TIP: Use your best photos - they'll be visible at 120x120px size!

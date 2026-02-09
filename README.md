@@ -8,8 +8,9 @@ A beautiful, romantic website for your girlfriend featuring different pages for 
 - 📅 **Auto Date Detection** - Automatically shows the correct day based on current date
 - 🎯 **Interactive Questions** - Romantic questions personalized for Pooja with answer validation
 - 💫 **Love Animations** - Beautiful heart animations and success celebrations
+- 📸 **Falling Photos** - Your couple photos fall like waterfall in the background on every page!
 - 🎊 **Pop-up Celebration** - After correct answer, beautiful pop-up shows with Q&A and animations
-- 📸 **Screenshot Reminder** - Prompts to take screenshot and send to Aduu
+- 📧 **Screenshot Reminder** - Prompts to take screenshot and send to Aduu
 - 🧭 **Manual Navigation** - Navigate between days using the bottom-right menu
 - 📱 **Responsive Design** - Works perfectly on all devices
 
@@ -31,14 +32,22 @@ A beautiful, romantic website for your girlfriend featuring different pages for 
 npm install
 ```
 
+### 📸 Add Your Photos (IMPORTANT!)
+
+2. Add your couple photos:
+   - Rename 30 photos as: `photo1.jpg`, `photo2.jpg`, ... `photo30.jpg`
+   - Place them in: `public/photos/` folder
+   - These will appear as falling animated backgrounds!
+   - See `ADD_PHOTOS_GUIDE.md` for detailed instructions
+
 ### Running the Website
 
-2. Start the development server:
+3. Start the development server:
 ```bash
 npm run dev
 ```
 
-3. Open your browser and visit the URL shown in the terminal (usually `http://localhost:5173`)
+4. Open your browser and visit the URL shown in the terminal (usually `http://localhost:5173`)
 
 ### Building for Production
 

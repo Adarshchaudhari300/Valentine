@@ -2,6 +2,14 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './DayTemplate.css'
 
+// Import all couple photos
+const couplePhotos = [
+  'https://i.imgur.com/placeholder1.jpg', // User will need to host these
+  'https://i.imgur.com/placeholder2.jpg',
+  'https://i.imgur.com/placeholder3.jpg',
+  // ... more photos
+]
+
 function DayTemplate({ 
   title, 
   date, 
@@ -32,6 +40,41 @@ function DayTemplate({
 
   return (
     <div className="day-template" style={{ background: bgGradient }}>
+      {/* Falling Photos Background */}
+      <div className="falling-photos">
+        {[...Array(20)].map((_, i) => {
+          // Cycle through photo indices
+          const photoIndex = i % 30; // We have 30 photos
+          return (
+            <motion.div
+              key={i}
+              className="falling-photo"
+              style={{
+                backgroundImage: `url(/photos/photo${photoIndex + 1}.jpg)`,
+              }}
+              initial={{ 
+                y: -100, 
+                x: Math.random() * window.innerWidth,
+                rotate: Math.random() * 360,
+                opacity: 1
+              }}
+              animate={{ 
+                y: window.innerHeight + 100,
+                x: Math.random() * window.innerWidth,
+                rotate: Math.random() * 720,
+                opacity: 1
+              }}
+              transition={{
+                duration: Math.random() * 15 + 15,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+                ease: "linear"
+              }}
+            />
+          )
+        })}
+      </div>
+
       {/* Pop-up Modal */}
       <AnimatePresence>
         {showPopup && (
