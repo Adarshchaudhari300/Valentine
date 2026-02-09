@@ -1,14 +1,114 @@
-import { useState } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './DayTemplate.css'
 
-// Import all couple photos
-const couplePhotos = [
-  'https://i.imgur.com/placeholder1.jpg', // User will need to host these
-  'https://i.imgur.com/placeholder2.jpg',
-  'https://i.imgur.com/placeholder3.jpg',
-  // ... more photos
-]
+// Memoized Falling Photos Component - prevents reset on typing
+const FallingPhotos = () => {
+  const photosConfig = useMemo(() => {
+    return [...Array(40)].map((_, i) => {
+      const photoIndex = i % 29;
+      const size = Math.random() * 100 + 80;
+      const rotationDirection = Math.random() > 0.5 ? 1 : -1;
+      const rotationSpeed = Math.random() * 60 + 30;
+      const startRotation = Math.random() * 360;
+      const direction = Math.floor(Math.random() * 4);
+      
+      let startX, startY, endX, endY;
+      const width = typeof window !== 'undefined' ? window.innerWidth : 1920;
+      const height = typeof window !== 'undefined' ? window.innerHeight : 1080;
+      
+      switch(direction) {
+        case 0:
+          startX = Math.random() * width;
+          startY = -150;
+          endX = Math.random() * width;
+          endY = height + 150;
+          break;
+        case 1:
+          startX = width + 150;
+          startY = Math.random() * height;
+          endX = -150;
+          endY = Math.random() * height;
+          break;
+        case 2:
+          startX = Math.random() * width;
+          startY = height + 150;
+          endX = Math.random() * width;
+          endY = -150;
+          break;
+        case 3:
+          startX = -150;
+          startY = Math.random() * height;
+          endX = width + 150;
+          endY = Math.random() * height;
+          break;
+      }
+      
+      const bounceAmount = Math.random() * 200 - 100;
+      const midX = (startX + endX) / 2 + bounceAmount;
+      const midY = (startY + endY) / 2 + bounceAmount;
+      const duration = Math.random() * 30 + 35;
+      const delay = Math.random() * 8;
+      
+      return {
+        photoIndex,
+        size,
+        startX,
+        startY,
+        midX,
+        midY,
+        endX,
+        endY,
+        startRotation,
+        rotationSpeed,
+        rotationDirection,
+        duration,
+        delay
+      };
+    });
+  }, []);
+
+  return (
+    <div className="falling-photos">
+      {photosConfig.map((config, i) => (
+        <motion.div
+          key={i}
+          className="falling-photo"
+          style={{
+            backgroundImage: `url(/photos/photo${config.photoIndex + 1}.jpg)`,
+            width: `${config.size}px`,
+            height: `${config.size}px`,
+          }}
+          initial={{ 
+            x: config.startX,
+            y: config.startY,
+            rotate: config.startRotation,
+            opacity: 1,
+            scale: 0.5
+          }}
+          animate={{ 
+            x: [config.startX, config.midX, config.endX],
+            y: [config.startY, config.midY, config.endY],
+            rotate: [
+              config.startRotation,
+              config.startRotation + (config.rotationSpeed * 0.5 * config.rotationDirection),
+              config.startRotation + (config.rotationSpeed * config.rotationDirection)
+            ],
+            opacity: 1,
+            scale: [0.5, 1, 0.5]
+          }}
+          transition={{
+            duration: config.duration,
+            repeat: Infinity,
+            delay: config.delay,
+            ease: "easeInOut",
+            times: [0, 0.5, 1]
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 function DayTemplate({ 
   title, 
@@ -23,6 +123,8 @@ function DayTemplate({
   const [showSuccess, setShowSuccess] = useState(false)
   const [showError, setShowError] = useState(false)
   const [showPopup, setShowPopup] = useState(false)
+  const [typingHearts, setTypingHearts] = useState([])
+  const inputRef = useRef(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -38,41 +140,59 @@ function DayTemplate({
     }
   }
 
+  const handleTyping = (e) => {
+    setAnswer(e.target.value)
+    
+    // Create flying hearts on typing
+    if (e.target.value.length > answer.length) {
+      const inputRect = inputRef.current?.getBoundingClientRect()
+      if (inputRect) {
+        const newHeart = {
+          id: Date.now() + Math.random(),
+          x: inputRect.left + Math.random() * inputRect.width,
+          y: inputRect.top + inputRect.height / 2
+        }
+        setTypingHearts(prev => [...prev, newHeart])
+        
+        // Remove heart after animation
+        setTimeout(() => {
+          setTypingHearts(prev => prev.filter(h => h.id !== newHeart.id))
+        }, 2000)
+      }
+    }
+  }
+
   return (
     <div className="day-template" style={{ background: bgGradient }}>
-      {/* Falling Photos Background */}
-      <div className="falling-photos">
-        {[...Array(20)].map((_, i) => {
-          // Cycle through photo indices
-          const photoIndex = i % 30; // We have 30 photos
-          return (
-            <motion.div
-              key={i}
-              className="falling-photo"
-              style={{
-                backgroundImage: `url(/photos/photo${photoIndex + 1}.jpg)`,
-              }}
-              initial={{ 
-                y: -100, 
-                x: Math.random() * window.innerWidth,
-                rotate: Math.random() * 360,
-                opacity: 1
-              }}
-              animate={{ 
-                y: window.innerHeight + 100,
-                x: Math.random() * window.innerWidth,
-                rotate: Math.random() * 720,
-                opacity: 1
-              }}
-              transition={{
-                duration: Math.random() * 15 + 15,
-                repeat: Infinity,
-                delay: Math.random() * 5,
-                ease: "linear"
-              }}
-            />
-          )
-        })}
+      {/* Falling Photos Background - Memoized */}
+      <FallingPhotos />
+
+      {/* Typing Hearts */}
+      <div className="typing-hearts-container">
+        {typingHearts.map(heart => (
+          <motion.div
+            key={heart.id}
+            className="typing-heart"
+            initial={{ 
+              x: heart.x,
+              y: heart.y,
+              scale: 0,
+              opacity: 1
+            }}
+            animate={{ 
+              x: heart.x + (Math.random() - 0.5) * 100,
+              y: heart.y - 100 - Math.random() * 100,
+              scale: [0, 1.5, 1],
+              opacity: [1, 1, 0]
+            }}
+            transition={{ 
+              duration: 2,
+              ease: "easeOut"
+            }}
+          >
+            💖
+          </motion.div>
+        ))}
       </div>
 
       {/* Pop-up Modal */}
@@ -242,9 +362,10 @@ function DayTemplate({
             <h2 className="question">{question}</h2>
             <form onSubmit={handleSubmit}>
               <input
+                ref={inputRef}
                 type="text"
                 value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
+                onChange={handleTyping}
                 placeholder="Type your answer..."
                 className="answer-input"
               />
@@ -258,7 +379,7 @@ function DayTemplate({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                Please write at least 14 words to express your heart! 💭✍️
+                please mera baby , kaam se kaam 14 shabd toh likho 💭✍️
               </motion.p>
             )}
           </motion.div>
