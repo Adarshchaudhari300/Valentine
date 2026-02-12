@@ -300,7 +300,7 @@ function DayTemplate({
                 className="popup-close"
                 onClick={() => setShowPopup(false)}
               >
-                Close ✕
+                Band kardu ✕
               </button>
             </motion.div>
           </motion.div>
@@ -370,7 +370,7 @@ function DayTemplate({
                 className="answer-input"
               />
               <button type="submit" className="submit-btn">
-                Submit Answer 💕
+                Jldii se jaan  Jawab Dedo 💕
               </button>
             </form>
             {showError && (
