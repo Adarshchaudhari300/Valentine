@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import DayTemplate from '../components/DayTemplate'
 import './ValentineDay.css'
@@ -8,6 +8,11 @@ function ValentineDay() {
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const recapStory = [
+    {
+      isIntro: true,
+      message: "Baby chalo dekhte hai hamne apna valentine week kaise manaya 💕✨",
+      gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%)"
+    },
     {
       day: "Chocolate Day 🍫",
       date: "February 9",
@@ -54,6 +59,18 @@ function ValentineDay() {
       image: "/photos/kiss-day.jpg"
     }
   ]
+
+  // Auto-transition from intro page after 10 seconds
+  useEffect(() => {
+    if (currentSlide === 0 && recapStory[0].isIntro) {
+      const timer = setTimeout(() => {
+        setCurrentSlide(1)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }, 10000)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [currentSlide])
 
   const handleNext = () => {
     if (currentSlide < recapStory.length - 1) {
@@ -113,101 +130,135 @@ function ValentineDay() {
               exit={{ opacity: 0, scale: 0.8, rotateY: 90 }}
               transition={{ duration: 0.6 }}
             >
-              {/* Header */}
-              <motion.div 
-                className="recap-header"
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                <h2 className="recap-day">{story.day}</h2>
-                <p className="recap-date">{story.date}</p>
-              </motion.div>
-
-              {/* Question */}
-              <motion.div 
-                className="recap-question"
-                initial={{ x: -50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <p className="question-label">Question:</p>
-                <p className="question-text">{story.question}</p>
-              </motion.div>
-
-              {/* Answer */}
-              <motion.div 
-                className="recap-answer"
-                initial={{ x: 50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.7 }}
-              >
-                <p className="answer-label">Your Answer:</p>
-                <p className="answer-text">{story.answer}</p>
-              </motion.div>
-
-              {/* Message */}
-              <motion.div 
-                className="recap-message"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.9 }}
-              >
-                {story.message}
-              </motion.div>
-
-              {/* Photo */}
-              {story.image && (
-                <motion.div 
-                  className="recap-photo"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 1.1 }}
+              {/* Intro Page */}
+              {story.isIntro ? (
+                <motion.div
+                  className="recap-intro"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
                 >
-                  <img src={story.image} alt={story.day} />
+                  <h1 className="intro-message">{story.message}</h1>
+                  <motion.div
+                    className="intro-hearts"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                  >
+                    💕✨💖✨💕
+                  </motion.div>
+                  <motion.p
+                    className="intro-timer"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 }}
+                  >
+                    Starting in a few seconds...
+                  </motion.p>
                 </motion.div>
+              ) : (
+                <>
+                  {/* Header */}
+                  <motion.div 
+                    className="recap-header"
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <h2 className="recap-day">{story.day}</h2>
+                    <p className="recap-date">{story.date}</p>
+                  </motion.div>
+
+                  {/* Question */}
+                  <motion.div 
+                    className="recap-question"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <p className="question-label">Question:</p>
+                    <p className="question-text">{story.question}</p>
+                  </motion.div>
+
+                  {/* Answer */}
+                  <motion.div 
+                    className="recap-answer"
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <p className="answer-label">Your Answer:</p>
+                    <p className="answer-text">{story.answer}</p>
+                  </motion.div>
+
+                  {/* Message */}
+                  <motion.div 
+                    className="recap-message"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                  >
+                    {story.message}
+                  </motion.div>
+
+                  {/* Photo */}
+                  {story.image && (
+                    <motion.div 
+                      className="recap-photo"
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 1.1 }}
+                    >
+                      <img src={story.image} alt={story.day} />
+                    </motion.div>
+                  )}
+                </>
               )}
 
-              {/* Progress Dots */}
-              <div className="recap-progress">
-                {recapStory.map((_, index) => (
-                  <div 
-                    key={index}
-                    className={`progress-dot ${index === currentSlide ? 'active' : ''} ${index < currentSlide ? 'completed' : ''}`}
-                  />
-                ))}
-              </div>
+              {/* Progress Dots - Hide on intro */}
+              {!story.isIntro && (
+                <div className="recap-progress">
+                  {recapStory.map((_, index) => (
+                    <div 
+                      key={index}
+                      className={`progress-dot ${index === currentSlide ? 'active' : ''} ${index < currentSlide ? 'completed' : ''}`}
+                    />
+                  ))}
+                </div>
+              )}
 
-              {/* Navigation */}
-              <div className="recap-navigation">
-                {currentSlide > 0 && (
+              {/* Navigation - Hide on intro */}
+              {!story.isIntro && (
+                <div className="recap-navigation">
+                  {currentSlide > 0 && (
+                    <motion.button
+                      className="recap-btn recap-btn-prev"
+                      onClick={handlePrevious}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      ← piche chalna hai?
+                    </motion.button>
+                  )}
+                  
                   <motion.button
-                    className="recap-btn recap-btn-prev"
-                    onClick={handlePrevious}
+                    className="recap-btn recap-btn-next"
+                    onClick={handleNext}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    animate={{ 
+                      boxShadow: [
+                        "0 5px 20px rgba(255, 107, 157, 0.4)",
+                        "0 5px 30px rgba(255, 107, 157, 0.6)",
+                        "0 5px 20px rgba(255, 107, 157, 0.4)"
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
                   >
-                    ← piche chalna hai?
+                    {currentSlide < recapStory.length - 1 ? 'agge bhadee bubuu →' : 'Final Question 💖'}
                   </motion.button>
-                )}
-                
-                <motion.button
-                  className="recap-btn recap-btn-next"
-                  onClick={handleNext}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  animate={{ 
-                    boxShadow: [
-                      "0 5px 20px rgba(255, 107, 157, 0.4)",
-                      "0 5px 30px rgba(255, 107, 157, 0.6)",
-                      "0 5px 20px rgba(255, 107, 157, 0.4)"
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  {currentSlide < recapStory.length - 1 ? 'agge bhadee bubuu →' : 'Final Question 💖'}
-                </motion.button>
-              </div>
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
 
