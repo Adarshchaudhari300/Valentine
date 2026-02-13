@@ -7,6 +7,7 @@ import HugDay from './pages/HugDay'
 import KissDay from './pages/KissDay'
 import ValentineDay from './pages/ValentineDay'
 import Navigation from './components/Navigation'
+import BackgroundMusic from './components/BackgroundMusic'
 import './App.css'
 
 const days = [
@@ -39,6 +40,9 @@ function App() {
 
   return (
     <div className="app">
+      {/* Background Music */}
+      <BackgroundMusic />
+      
       <AnimatePresence mode="wait">
         <motion.div
           key={currentDayIndex}
@@ -51,12 +55,11 @@ function App() {
         </motion.div>
       </AnimatePresence>
       
-      {/* Navigation Hidden */}
-      {/* <Navigation 
+      <Navigation 
         days={days}
         currentDayIndex={currentDayIndex}
         setCurrentDayIndex={setCurrentDayIndex}
-      /> */}
+      />
     </div>
   )
 }

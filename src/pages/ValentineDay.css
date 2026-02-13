@@ -1,0 +1,250 @@
+.valentine-recap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.recap-hearts-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.recap-heart {
+  position: absolute;
+  font-size: 30px;
+  opacity: 0.3;
+}
+
+.recap-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 800px;
+}
+
+.recap-title {
+  text-align: center;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.recap-title h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+}
+
+.recap-title p {
+  font-size: 1.3rem;
+  opacity: 0.9;
+}
+
+.recap-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 50px 40px;
+  border-radius: 30px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.recap-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #ff6b9d;
+}
+
+.recap-day {
+  font-size: 2.5rem;
+  color: #c44569;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.recap-date {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.recap-question {
+  background: linear-gradient(135deg, #ffe5ec 0%, #fff0f5 100%);
+  padding: 25px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  border-left: 5px solid #ff6b9d;
+}
+
+.question-label {
+  font-size: 1.1rem;
+  color: #ff6b9d;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.question-text {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.recap-answer {
+  background: linear-gradient(135deg, #f093fb 0%, #f5c6ff 100%);
+  padding: 25px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  border-left: 5px solid #c44569;
+  box-shadow: 0 5px 20px rgba(196, 69, 105, 0.2);
+}
+
+.answer-label {
+  font-size: 1.1rem;
+  color: #c44569;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.answer-text {
+  font-size: 1.15rem;
+  color: #333;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+.recap-message {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #c44569;
+  font-weight: 600;
+  padding: 20px;
+  background: rgba(255, 107, 157, 0.1);
+  border-radius: 15px;
+  margin-bottom: 25px;
+}
+
+.recap-photo {
+  margin-top: 25px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.recap-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+}
+
+.recap-progress {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 30px 0;
+}
+
+.progress-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ddd;
+  transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+  background: #ff6b9d;
+  width: 30px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+}
+
+.progress-dot.completed {
+  background: #c44569;
+}
+
+.recap-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.recap-btn {
+  flex: 1;
+  padding: 18px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.recap-btn-prev {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  max-width: 150px;
+}
+
+.recap-btn:hover {
+  transform: translateY(-2px);
+}
+
+.recap-btn-next {
+  box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+}
+
+@media (max-width: 768px) {
+  .recap-title h1 {
+    font-size: 2rem;
+  }
+
+  .recap-title p {
+    font-size: 1rem;
+  }
+
+  .recap-card {
+    padding: 30px 20px;
+  }
+
+  .recap-day {
+    font-size: 2rem;
+  }
+
+  .recap-date {
+    font-size: 1rem;
+  }
+
+  .question-text,
+  .answer-text {
+    font-size: 1rem;
+  }
+
+  .recap-message {
+    font-size: 1.1rem;
+  }
+
+  .recap-btn {
+    font-size: 1rem;
+    padding: 15px 20px;
+  }
+
+  .recap-navigation {
+    flex-direction: column;
+  }
+
+  .recap-btn-prev {
+    max-width: 100%;
+  }
+}
